@@ -21,30 +21,24 @@ import java.util.function.Function;
  */
 public class FeedMain {
 
-    public static void main(String[] args){
 
-        RetrofitHttpOAuthConsumer oAuthConsumer = new RetrofitHttpOAuthConsumer("jv1leiGHtoEPNYui1RjuoAs4y","slxI1LnTiV6AZNV4nPGJYqlhH1huXAEapVguJLlHCW8dCmahA9");
-        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
-        RestAdapter restAdapter  = new RestAdapter.Builder().setEndpoint("https://api.twitter.com/").setClient(new SigningOkClient(oAuthConsumer)).setConverter(new GsonConverter(gson)).
-        build();
+public static void main(String[] args){
 
-        TwitterService twitterService = restAdapter.create(TwitterService.class);
+    RetrofitHttpOAuthConsumer oAuthConsumer = new RetrofitHttpOAuthConsumer("jv1leiGHtoEPNYui1RjuoAs4y","slxI1LnTiV6AZNV4nPGJYqlhH1huXAEapVguJLlHCW8dCmahA9");
+    Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+    RestAdapter restAdapter  = new RestAdapter.Builder().setEndpoint("https://api.twitter.com/").setClient(new SigningOkClient(oAuthConsumer)).setConverter(new GsonConverter(gson)).
+    build();
+
+    TwitterService twitterService = restAdapter.create(TwitterService.class);
 
 
-        Observable<List<Tweet>> tweets = twitterService.getTweets("NickHolmesPL");
+    Observable<List<Tweet>> tweets = twitterService.getTweets("NickHolmesPL");
 
-        String user = "huseyin";
-       tweets.subscribe(tweet -> tweet.stream().map(curry(FeedMain::createMyTweet, user)).forEach(System.out::println));
+   tweets.subscribe(tweet -> tweet.stream().map(Tweet::getText).forEach(System.out::println));
 
-    }
+}
 
     private static <T, U, R> Function<U, R> curry(BiFunction<T, U, R> f, T t) {
         return u -> f.apply(t, u);
-    }
-
-
-    public static Tweet createMyTweet(String user, Tweet t){
-        t.setSource(user);
-        return t;
     }
 }
