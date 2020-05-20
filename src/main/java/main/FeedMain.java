@@ -24,7 +24,7 @@ public class FeedMain {
 
 public static void main(String[] args){
 
-    RetrofitHttpOAuthConsumer oAuthConsumer = new RetrofitHttpOAuthConsumer("jv1leiGHtoEPNYui1RjuoAs4y","slxI1LnTiV6AZNV4nPGJYqlhH1huXAEapVguJLlHCW8dCmahA9");
+    RetrofitHttpOAuthConsumer oAuthConsumer = new RetrofitHttpOAuthConsumer("","");
     Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
     RestAdapter restAdapter  = new RestAdapter.Builder().setEndpoint("https://api.twitter.com/").setClient(new SigningOkClient(oAuthConsumer)).setConverter(new GsonConverter(gson)).
     build();
